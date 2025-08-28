@@ -25,15 +25,17 @@ public class OpenAIServiceImpl implements OpenAIService {
         this.chatModel = chatModel;
     }
 
+    //Her loader man opp en resouce som representerer strukturen av spørsmålet
     @Value("classpath:templates/get-capital-prompt.st")
     private Resource getCapitalPrompt;
 
     @Override
     public Answer getCapital(GetCapitalRequest getCapitalRequest) {
-        PromptTemplate promptTemplate = new PromptTemplate(getCapitalPrompt);
-        Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalRequest.stateOrCountry()));
-        ChatResponse response = chatModel.call(prompt);
-
+        PromptTemplate promptTemplate = new PromptTemplate(getCapitalPrompt); //templaten for den strukturen.
+        Prompt prompt = promptTemplate.create(Map.of("stateOrCountry", getCapitalRequest.stateOrCountry())); //mappen K , V par basert på template placeholderen og inputen som
+        //kommer fra et forespørsel
+        ChatResponse response = chatModel.call(prompt); //ber en ki om å håndtere det
+        //ellers det samme som tidligere
         return new Answer(response.getResult().getOutput().getText());
     }
     @Override
