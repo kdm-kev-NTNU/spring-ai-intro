@@ -19,13 +19,18 @@ public class OpenAIServiceImpl implements OpenAIService {
     }
 
 
+    // Returnerer et svar på et gitt spørsmål ved å bruke en ChatModel (f.eks. OpenAI).
     @Override
     public String getAnswer(String question) {
+        // Lager en PromptTemplate basert på spørsmålet.
         PromptTemplate promptTemplate = new PromptTemplate(question);
+        // Oppretter en Prompt fra malen.
         Prompt prompt = promptTemplate.create();
 
+        // Sender prompten til chatmodellen og får et svar.
         ChatResponse response = chatModel.call(prompt);
 
+        // Returnerer tekstsvaret fra modellen.
         return response.getResult().getOutput().getText();
     }
 }
